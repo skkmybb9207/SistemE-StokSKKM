@@ -33,7 +33,7 @@
             </div>
             
             <div class="flex flex-col items-center md:items-end gap-4">
-                <div class="flex bg-white/10 p-1.5 rounded-2xl backdrop-blur-xl border border-white/20">
+                <div class="flex bg-white/10 p-1.5 rounded-2xl backdrop-blur-xl border border-white/20 shadow-inner">
                     <button onclick="setRole('guru')" id="btnRoleGuru" class="px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all bg-amber-500 text-slate-900 shadow-xl">Mod Guru</button>
                     <button onclick="promptAdmin()" id="btnRoleAdmin" class="px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-400 hover:text-white">Mod Admin</button>
                 </div>
@@ -49,7 +49,7 @@
                 <div class="glass-panel rounded-[3rem] p-10 border-gold relative overflow-hidden">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
                         <div class="flex items-center gap-4">
-                            <div id="roleIcon" class="bg-slate-900 text-white p-3 rounded-2xl shadow-2xl">
+                            <div id="roleIcon" class="bg-slate-900 text-white p-3 rounded-2xl shadow-2xl transition-colors duration-500">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
                             </div>
                             <div>
@@ -57,7 +57,7 @@
                                 <p id="roleSub" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Sila lengkapkan butiran pengambilan stok</p>
                             </div>
                         </div>
-                        <a href="https://docs.google.com/spreadsheets/d/127wv0kjwtQNAFqa1zCeBNp20O1tHC9GVr32h33sml6Q/edit" target="_blank" id="adminSheetBtn" class="hidden flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg transition-all">
+                        <a href="https://docs.google.com/spreadsheets/d/127wv0kjwtQNAFqa1zCeBNp20O1tHC9GVr32h33sml6Q/edit" target="_blank" id="adminSheetBtn" class="hidden flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg transition-all active:scale-95">
                             📊 Buka Laporan ↗
                         </a>
                     </div>
@@ -105,42 +105,42 @@
                             </div>
                         </div>
 
-                        <button type="submit" id="submitBtn" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-black py-6 rounded-[1.5rem] uppercase tracking-[0.3em] text-xs shadow-2xl active:scale-95 transition-all">🚀 Simpan & Papar Notifikasi</button>
+                        <button type="submit" id="submitBtn" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-black py-6 rounded-[1.5rem] uppercase tracking-[0.3em] text-xs shadow-2xl active:scale-95 transition-all">🚀 Simpan Rekod & Inform Admin</button>
                         
                         <!-- Pusat Notifikasi Admin -->
                         <div id="waCenter" class="hidden mt-10 p-8 bg-slate-100 border border-slate-200 rounded-[2.5rem] text-center">
-                            <h3 class="text-[10px] font-black text-slate-800 uppercase tracking-[0.2em] mb-6 italic underline decoration-amber-400 decoration-4 underline-offset-8 leading-none">Sila Maklumkan Admin Bertugas (WhatsApp):</h3>
+                            <h3 class="text-[10px] font-black text-slate-800 uppercase tracking-[0.2em] mb-6 italic underline decoration-amber-400 decoration-4 underline-offset-8 leading-none">Sila Maklumkan Admin Pejabat (WhatsApp):</h3>
                             
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <a id="waTutong" href="#" target="_blank" class="admin-card border-amber-200 bg-amber-50/30">
                                     <span class="text-2xl mb-1">👨‍🔧</span>
-                                    <p class="text-[8px] font-black uppercase text-slate-400 mb-1 leading-none">P.O Utama</p>
-                                    <p class="text-[11px] font-black text-slate-800 uppercase leading-none">En. Tutong</p>
+                                    <p class="text-[8px] font-black uppercase text-slate-400 mb-1 leading-none">P.O Pejabat 2</p>
+                                    <p class="text-[11px] font-black text-slate-800 uppercase leading-none">Tutong</p>
                                 </a>
                                 <a id="waJelai" href="#" target="_blank" class="admin-card">
                                     <span class="text-2xl mb-1">👨‍💼</span>
-                                    <p class="text-[8px] font-black uppercase text-slate-400 mb-1 leading-none">P.O Pejabat</p>
-                                    <p class="text-[11px] font-black text-slate-800 uppercase leading-none">En. Jelai</p>
+                                    <p class="text-[8px] font-black uppercase text-slate-400 mb-1 leading-none">P.O Pejabat 2</p>
+                                    <p class="text-[11px] font-black text-slate-800 uppercase leading-none">Jelai</p>
                                 </a>
                                 <a id="waEllyna" href="#" target="_blank" class="admin-card">
                                     <span class="text-2xl mb-1">👩‍💻</span>
-                                    <p class="text-[8px] font-black uppercase text-slate-400 mb-1 leading-none">PT Pejabat</p>
-                                    <p class="text-[11px] font-black text-slate-800 uppercase leading-none">Pn. Ellyna</p>
+                                    <p class="text-[8px] font-black uppercase text-slate-400 mb-1 leading-none">Pembantu Tadbir</p>
+                                    <p class="text-[11px] font-black text-slate-800 uppercase leading-none text-center">Puan Ellyna Haura</p>
                                 </a>
                             </div>
-                            <button type="button" onclick="location.reload()" class="mt-8 text-[9px] font-black text-slate-400 uppercase underline tracking-[0.2em]">Tutup / Rekod Baru ↻</button>
+                            <button type="button" onclick="location.reload()" class="mt-8 text-[9px] font-black text-slate-400 uppercase underline tracking-[0.2em]">Selesai / Rekod Baru ↻</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- Sidebar Branding & Timer -->
+            <!-- Sidebar Info & Timer -->
             <div class="lg:col-span-5 flex flex-col gap-8">
                 <div class="glass-panel rounded-[3rem] p-10 border-l-[15px] border-slate-900 h-full flex flex-col justify-between shadow-2xl">
                     <div>
                         <h2 class="text-3xl font-black text-slate-800 uppercase italic tracking-tighter mb-8 leading-tight">Automasi Inventori SKKM</h2>
                         <div class="bg-blue-50 p-6 rounded-[2rem] border border-blue-100 mb-8">
-                            <p id="dbStatus" class="text-[11px] font-bold text-slate-600 leading-relaxed uppercase tracking-tighter">Menyambung ke Database Cloud...</p>
+                            <p id="dbStatus" class="text-[11px] font-bold text-slate-600 leading-relaxed uppercase tracking-tighter">Menghubungkan Database Cloud...</p>
                         </div>
                     </div>
                     
@@ -198,12 +198,12 @@
                     opt.value = name; opt.text = name;
                     dropdown.add(opt);
                 });
-                document.getElementById('dbStatus').innerText = "Database Connected: Live Staff List Loaded";
+                document.getElementById('dbStatus').innerText = "Database Connected: Live Staff Data Loaded";
                 document.getElementById('dbStatus').className = "text-[11px] font-bold text-emerald-600 uppercase tracking-tighter";
             } catch (e) { document.getElementById('dbStatus').innerText = "Database Offline: Sila Reload"; }
         }
 
-        // 3. Dual Role Control
+        // 3. Role Control Logic
         let currentRole = 'guru';
         function setRole(role) {
             currentRole = role;
@@ -217,25 +217,24 @@
             if (role === 'guru') {
                 field.innerHTML = '<option value="KELUAR" selected>STOK KELUAR (-)</option>';
                 field.className = 'w-full p-5 border-2 border-rose-100 rounded-[1.5rem] font-black text-sm text-rose-600 outline-none';
-                btnGuru.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase bg-amber-500 text-slate-900 shadow-xl';
-                btnAdmin.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400';
+                btnGuru.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase bg-amber-500 text-slate-900 shadow-xl transition-all';
+                btnAdmin.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400 hover:text-white transition-all';
                 adminSheetBtn.classList.add('hidden');
                 rIcon.className = 'bg-slate-900 text-white p-3 rounded-2xl';
                 rTitle.innerText = "Rekod Pengeluaran";
             } else {
                 field.innerHTML = '<option value="MASUK">STOK MASUK (+)</option><option value="KELUAR">STOK KELUAR (-)</option>';
                 field.className = 'w-full p-5 border-2 border-emerald-100 rounded-[1.5rem] font-black text-sm text-emerald-600 outline-none';
-                btnAdmin.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase bg-emerald-500 text-white shadow-xl';
-                btnGuru.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400';
+                btnAdmin.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase bg-emerald-500 text-white shadow-xl transition-all';
+                btnGuru.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400 hover:text-white transition-all';
                 adminSheetBtn.classList.remove('hidden');
                 rIcon.className = 'bg-emerald-600 text-white p-3 rounded-2xl';
                 rTitle.innerText = "Kemasukan Admin";
             }
         }
 
-        function promptAdmin() { if (prompt("Akses Admin:") === ADMIN_PASS) setRole('admin'); else alert("Kod Salah!"); }
+        function promptAdmin() { if (prompt("Sila masukkan Kod Akses Admin:") === ADMIN_PASS) setRole('admin'); else alert("Kod Akses Salah!"); }
 
-        // Invoice Toggle
         let isManual = false;
         function toggleInv() {
             isManual = !isManual;
@@ -244,11 +243,11 @@
             document.getElementById('tBtn').innerText = isManual ? 'Pilihan ↩' : 'Manual ✎';
         }
 
-        // 4. Data Submission
+        // 4. Submission & WhatsApp Center
         document.getElementById('stokForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = 'MEMPROSES...';
+            btn.innerText = 'MEMPROSES REKOD...';
             btn.disabled = true;
 
             const data = {
@@ -262,11 +261,11 @@
 
             fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
             .then(() => {
-                btn.innerText = 'REKOD DISIMPAN!';
-                btn.className = 'w-full bg-emerald-600 text-white font-black py-6 rounded-[1.5rem] uppercase text-xs';
+                btn.innerText = 'REKOD BERJAYA DISIMPAN!';
+                btn.className = 'w-full bg-emerald-600 text-white font-black py-6 rounded-[1.5rem] uppercase text-xs shadow-none';
                 
                 if(data.gerakan === "KELUAR" && currentRole === 'guru') {
-                    const msg = `*MAKLUMAN STOK KELUAR - SKKM*%0A------------------------------------%0A*Item:* ${data.item}%0A*Kuantiti:* ${data.qty} UNIT%0A*Guru:* ${data.guru}%0A*Catatan:* ${data.invois}%0A%0A_Sila kemaskini baki stok. Terima kasih._`;
+                    const msg = `*E-STOK SKKM: MAKLUMAN PENGELUARAN*%0A------------------------------------%0A*Item:* ${data.item}%0A*Bilangan:* ${data.qty} UNIT%0A*Diambil Oleh:* ${data.guru}%0A*Catatan:* ${data.invois}%0A%0A_Mohon maklumbalas jika perlu. Terima kasih._`;
                     
                     document.getElementById('waTutong').href = `https://wa.me/60138416042?text=${msg}`;
                     document.getElementById('waJelai').href = `https://wa.me/60178327839?text=${msg}`;
