@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem E-Stok Digital SKKM</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #f1f5f9; }
+        .bg-navy-pro { background: linear-gradient(135deg, #020617 0%, #0f172a 100%); }
+        .border-gold { border-top: 5px solid #fbbf24; }
+        .glass-panel { 
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e2e8f0;
+        }
+        .btn-wa { @apply flex items-center justify-center gap-2 text-white px-5 py-4 rounded-2xl font-bold text-[10px] uppercase tracking-widest transition-all hover:scale-105 shadow-lg active:scale-95; }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800">
+
+    <!-- Header Korporat -->
+    <header class="bg-navy-pro text-white py-12 px-6 shadow-2xl relative overflow-hidden">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+            <div class="flex items-center gap-6">
+                <img src="https://i.postimg.cc/fLF8Qqnw/LOGO-SKKM-2023-LATEST.png" class="h-24 drop-shadow-lg" alt="Logo SKKM">
+                <div>
+                    <h1 class="text-4xl font-black tracking-tighter uppercase leading-none italic">Sistem E-Stok Digital</h1>
+                    <p class="text-amber-400 text-sm font-bold tracking-[0.4em] uppercase mt-2 opacity-90 leading-none">SK Kuala Muput, Tatau</p>
+                </div>
+            </div>
+            
+            <div class="flex flex-col items-center md:items-end gap-4">
+                <div class="text-right hidden md:block">
+                    <p class="text-[9px] text-slate-400 uppercase font-black tracking-[0.2em] mb-1">Status Pengurusan</p>
+                    <p class="text-xs font-bold text-emerald-400 uppercase tracking-tighter">● Online Cloud System</p>
+                </div>
+                <!-- Role Selector -->
+                <div class="flex bg-white/10 p-1.5 rounded-2xl backdrop-blur-xl border border-white/20 shadow-inner">
+                    <button onclick="setRole('guru')" id="btnRoleGuru" class="px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all bg-amber-500 text-slate-900 shadow-xl">Mod Guru</button>
+                    <button onclick="promptAdmin()" id="btnRoleAdmin" class="px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-400 hover:text-white">Mod Admin</button>
+                </div>
+            </div>
+        </div>
+        <div class="absolute -right-20 -top-20 h-80 w-80 bg-blue-500/10 rounded-full blur-[100px]"></div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 -mt-12 relative z-20 pb-20">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
+            <!-- Borang Input (Kiri) -->
+            <div class="lg:col-span-7">
+                <div class="glass-panel rounded-[3rem] p-10 border-gold relative overflow-hidden">
+                    <div class="flex justify-between items-center mb-10">
+                        <div class="flex items-center gap-4">
+                            <div id="roleIcon" class="bg-slate-900 text-white p-3 rounded-2xl shadow-2xl">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
+                            </div>
+                            <div>
+                                <h2 id="roleTitle" class="text-3xl font-black text-slate-800 uppercase tracking-tighter leading-none">Rekod Pengeluaran</h2>
+                                <p id="roleSub" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Sila lengkapkan butiran pengeluaran stok</p>
+                            </div>
+                        </div>
+                        <div id="adminBadge" class="hidden px-4 py-2 bg-emerald-100 text-emerald-700 text-[10px] font-black rounded-full border border-emerald-200 uppercase tracking-widest animate-pulse tracking-tighter">Admin Authorized</div>
+                    </div>
+
+                    <form id="stokForm" class="space-y-6">
+                        <!-- Dropdown Nama Staf -->
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Nama Pegawai / Staf</label>
+                            <select name="guru" id="staffDropdown" required class="w-full p-5 bg-slate-900 text-white border-none rounded-[1.5rem] font-bold text-sm uppercase shadow-inner outline-none focus:ring-4 focus:ring-amber-500/20 transition-all">
+                                <option value="" disabled selected>-- SEDANG MEMUATKAN SENARAI STAF --</option>
+                            </select>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Punca Kewangan</label>
+                                <select name="punca" class="w-full p-5 bg-slate-50 border border-slate-200 rounded-[1.5rem] font-bold text-sm outline-none">
+                                    <option>PCG PANITIA</option><option>LPBT</option><option>SUMBANGAN / LAIN-LAIN</option><option>TIDAK PASTI (STOK LAMA)</option>
+                                </select>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Jenis Transaksi</label>
+                                <select name="gerakan" id="gerakanField" class="w-full p-5 border-2 border-slate-100 rounded-[1.5rem] font-black text-sm outline-none transition-all">
+                                    <!-- Dikawal JS -->
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Nama Bahan / Item</label>
+                            <input type="text" name="item" required placeholder="CONTOH: KERTAS A4 / TONER" class="w-full p-5 bg-slate-50 border border-slate-200 rounded-[1.5rem] font-bold text-sm uppercase outline-none focus:bg-white transition-all">
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Bilangan (Unit)</label>
+                                <input type="number" name="qty" required placeholder="0" class="w-full p-5 bg-slate-50 border border-slate-200 rounded-[1.5rem] font-black text-xl text-center outline-none">
+                            </div>
+                            <div class="space-y-2">
+                                <div class="flex justify-between items-center px-2">
+                                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Invois / Sebab</label>
+                                    <button type="button" onclick="toggleInv()" id="tBtn" class="text-[9px] font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full uppercase">Manual ✎</button>
+                                </div>
+                                <select id="iSel" class="w-full p-5 bg-slate-50 border border-slate-200 rounded-[1.5rem] font-bold text-sm outline-none">
+                                    <option value="KEGUNAAN SEMASA">KEGUNAAN SEMASA</option><option value="PASCA BANJIR">PASCA BANJIR</option><option value="STOK LAMA">STOK LAMA</option>
+                                </select>
+                                <input type="text" id="iInp" placeholder="TAIP NO. INVOIS" class="hidden w-full p-5 bg-white border border-amber-200 rounded-[1.5rem] font-bold text-sm uppercase outline-none">
+                            </div>
+                        </div>
+
+                        <button type="submit" id="submitBtn" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-black py-6 rounded-[1.5rem] uppercase tracking-[0.3em] text-xs shadow-2xl active:scale-95 transition-all flex items-center justify-center gap-3">
+                            🚀 Simpan Rekod Sekarang
+                        </button>
+                        
+                        <!-- Notification WhatsApp Area -->
+                        <div id="waCenter" class="hidden mt-10 p-8 bg-slate-100 border border-slate-200 rounded-[2.5rem] text-center">
+                            <h3 class="text-xs font-black text-slate-800 uppercase tracking-widest mb-6 italic underline decoration-amber-400 decoration-4 underline-offset-8">Makluman Kerani (WhatsApp):</h3>
+                            <div class="grid grid-cols-1 gap-4">
+                                <a id="wa1" href="#" target="_blank" class="btn-wa bg-emerald-600 hover:bg-emerald-700">💬 Maklum Kerani (Nurul)</a>
+                                <a id="wa2" href="#" target="_blank" class="btn-wa bg-emerald-500 hover:bg-emerald-600 shadow-none">💬 Maklum Admin 2 (P.O)</a>
+                            </div>
+                            <button type="button" onclick="location.reload()" class="mt-6 text-[10px] font-bold text-slate-400 uppercase underline tracking-widest">Tutup / Rekod Baru ↻</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Dashboard Side (Kanan) -->
+            <div class="lg:col-span-5 flex flex-col gap-8">
+                <div class="glass-panel rounded-[3rem] p-10 border-l-[15px] border-slate-900 h-full flex flex-col justify-between shadow-2xl">
+                    <div>
+                        <h2 class="text-3xl font-black text-slate-800 uppercase italic tracking-tighter mb-8 leading-tight">Kawalan Stok Sistematik</h2>
+                        <p class="text-sm font-bold text-slate-500 leading-relaxed uppercase mb-10">Sistem ini memusatkan rekod pengeluaran stok bagi tujuan ketelusan data dan memudahkan penyediaan Laporan Inventori Tahunan sekolah.</p>
+                        
+                        <div class="bg-blue-50 p-6 rounded-[2rem] border border-blue-100 mb-8">
+                            <p class="text-[10px] font-black text-blue-700 uppercase mb-2 tracking-widest">● Cloud Sync Status</p>
+                            <p id="dbStatus" class="text-[11px] font-bold text-slate-600 leading-relaxed uppercase tracking-tighter">Menghubungkan Database Google Cloud...</p>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-10 border-t border-slate-100">
+                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] block mb-2 leading-none">Pembangun Inovasi:</span>
+                        <span class="text-xl font-black text-slate-900 uppercase italic tracking-tighter block mb-1 leading-none">Cikgu Dayangku Nurul Akmal</span>
+                        <span class="text-xs font-bold text-slate-400 uppercase block mb-8 tracking-widest">Awang Mustapha</span>
+                        
+                        <div class="space-y-4">
+                            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                                Dibangunkan pada: <span class="text-slate-900 font-black border-b-2 border-amber-400 pb-1">12 Februari 2026</span>
+                            </p>
+                            <!-- Count Up Timer -->
+                            <div class="bg-slate-900 text-white p-7 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+                                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-3 relative z-10">Masa Beroperasi Sejak Pelancaran:</p>
+                                <div id="countup" class="text-xl font-black text-amber-400 tracking-tighter font-mono italic uppercase relative z-10 leading-none">0 Hari 0 Jam 0 Min 0 Saat</div>
+                                <div class="absolute -right-5 -bottom-5 text-6xl font-black text-white/5 italic">SKKM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- KONFIGURASI ---
+        const TEL_ADMIN_1 = '601118879712'; // Nurul
+        const TEL_ADMIN_2 = '601XXXXXXXXX'; 
+        const ADMIN_PASS  = 'SKKM2026';
+        const scriptURL   = 'https://script.google.com/macros/s/AKfycbwsNH7gREyf6BfDQOaolX5DGpN0yEDpvWU0g1XhskWJSHs44tNn5wlmFiKty-6IE2D_/exec'; // GANTI DI SINI
+        const launchDate  = new Date("February 12, 2026 00:00:00").getTime();
+
+        // 1. Timer Count-up
+        function updateTimer() {
+            const now = new Date().getTime();
+            const diff = now - launchDate;
+            if(diff < 0) { document.getElementById("countup").innerText = "SISTEM DALAM PERSIAPAN"; return; }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById("countup").innerText = `${days} HARI ${hours} JAM ${minutes} MIN ${seconds} SAAT`;
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // 2. Fetch Staf
+        async function loadStaff() {
+            try {
+                const response = await fetch(scriptURL);
+                const staffList = await response.json();
+                const dropdown = document.getElementById('staffDropdown');
+                dropdown.innerHTML = '<option value="" disabled selected>-- PILIH NAMA ANDA --</option>';
+                staffList.forEach(name => {
+                    const opt = document.createElement('option');
+                    opt.value = name; opt.text = name;
+                    dropdown.add(opt);
+                });
+                document.getElementById('dbStatus').innerText = "Database Connected: Live Staff Data";
+                document.getElementById('dbStatus').className = "text-[11px] font-bold text-emerald-600 leading-relaxed uppercase tracking-tighter";
+            } catch (e) { document.getElementById('dbStatus').innerText = "Ralat Cloud: Sila Semak Link Script"; }
+        }
+
+        // 3. Role Access
+        let currentRole = 'guru';
+        function setRole(role) {
+            currentRole = role;
+            const field = document.getElementById('gerakanField');
+            const btnGuru = document.getElementById('btnRoleGuru');
+            const btnAdmin = document.getElementById('btnRoleAdmin');
+            const rIcon = document.getElementById('roleIcon');
+            const rTitle = document.getElementById('roleTitle');
+            const rSub = document.getElementById('roleSub');
+
+            if (role === 'guru') {
+                field.innerHTML = '<option value="KELUAR" selected>STOK KELUAR (-)</option>';
+                field.className = 'w-full p-5 border-2 border-rose-100 rounded-[1.5rem] font-black text-sm text-rose-600 outline-none';
+                btnGuru.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase bg-amber-500 text-slate-900 shadow-xl';
+                btnAdmin.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400 hover:text-white';
+                rIcon.className = 'bg-slate-900 text-white p-3 rounded-2xl shadow-2xl';
+                rTitle.innerText = "Rekod Pengeluaran";
+                rSub.innerText = "Mod Guru: Daftar pengambilan barang";
+                document.getElementById('adminBadge').classList.add('hidden');
+            } else {
+                field.innerHTML = '<option value="MASUK">STOK MASUK (+)</option><option value="KELUAR">STOK KELUAR (-)</option>';
+                field.className = 'w-full p-5 border-2 border-emerald-100 rounded-[1.5rem] font-black text-sm text-emerald-600 outline-none';
+                btnAdmin.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase bg-emerald-500 text-white shadow-xl';
+                btnGuru.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400 hover:text-white';
+                rIcon.className = 'bg-emerald-600 text-white p-3 rounded-2xl shadow-2xl';
+                rTitle.innerText = "Kemasukan Admin";
+                rSub.innerText = "Akses Kerani: Urusan bekalan & audit";
+                document.getElementById('adminBadge').classList.remove('hidden');
+            }
+        }
+
+        function promptAdmin() { if (prompt("Sila masukkan Kod Akses Admin:") === ADMIN_PASS) setRole('admin'); else alert("Kod Akses Salah!"); }
+
+        let isManual = false;
+        function toggleInv() {
+            isManual = !isManual;
+            document.getElementById('iSel').classList.toggle('hidden');
+            document.getElementById('iInp').classList.toggle('hidden');
+            document.getElementById('tBtn').innerText = isManual ? 'Pilihan ↩' : 'Manual ✎';
+        }
+
+        // 4. Post Data
+        document.getElementById('stokForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = 'MEMPROSES DATA...';
+            btn.disabled = true;
+
+            const data = {
+                guru: e.target.guru.value,
+                punca: e.target.punca.value,
+                item: e.target.item.value,
+                gerakan: e.target.gerakan.value,
+                qty: e.target.qty.value,
+                invois: isManual ? document.getElementById('iInp').value : document.getElementById('iSel').value
+            };
+
+            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
+            .then(() => {
+                btn.innerText = 'REKOD TELAH DISIMPAN!';
+                btn.className = 'w-full bg-emerald-600 text-white font-black py-6 rounded-[1.5rem] uppercase tracking-[0.3em] text-xs shadow-none';
+                
+                if(data.gerakan === "KELUAR" && currentRole === 'guru') {
+                    const msg = `*E-STOK SKKM: MAKLUMAN PENGELUARAN*%0A------------------------------------%0A*Penerima:* PN. NURUL (KERANI)%0A*Item:* ${data.item}%0A*Kuantiti:* ${data.qty} UNIT%0A*Diambil Oleh:* ${data.guru}%0A*Catatan:* ${data.invois}%0A%0A_Sila kemaskini rekod baki fizikal. Terima kasih._`;
+                    document.getElementById('wa1').href = `https://wa.me/${TEL_ADMIN_1}?text=${msg}`;
+                    document.getElementById('wa2').href = `https://wa.me/${TEL_ADMIN_2}?text=${msg}`;
+                    document.getElementById('waCenter').classList.remove('hidden');
+                    document.getElementById('waCenter').scrollIntoView({ behavior: 'smooth' });
+                } else { setTimeout(() => location.reload(), 2000); }
+            });
+        });
+
+        loadStaff();
+        setRole('guru');
+    </script>
+</body>
+</html>
