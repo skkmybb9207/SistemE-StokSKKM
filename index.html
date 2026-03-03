@@ -3,306 +3,339 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem E-Stok Digital SKKM</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <title>Portal Kehadiran Staf SKKM</title>
     <style>
-        body { font-family: 'Outfit', sans-serif; background: #f1f5f9; }
-        .bg-navy-pro { background: linear-gradient(135deg, #020617 0%, #0f172a 100%); }
-        .border-gold { border-top: 5px solid #fbbf24; }
-        .glass-panel { 
-            background: rgba(255, 255, 255, 0.98);
-            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid #e2e8f0;
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+        :root {
+            --skkm-blue: #0056b3; --skkm-red: #d9251d; --skkm-yellow: #ffc107; --skkm-green: #28a745; --skkm-grey: #6c757d;
+            --text-color: #333; --header-bg: rgba(255, 255, 255, 0.9); --form-bg: rgba(255, 255, 255, 0.85);
+            --border-color: #dee2e6; --shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
         }
-        .admin-card { @apply flex flex-col items-center p-4 bg-white border border-slate-100 rounded-2xl transition-all hover:border-amber-500 hover:shadow-md; }
+        body {
+            font-family: 'Poppins', sans-serif; color: var(--text-color); margin: 0; padding: 20px;
+            line-height: 1.6; background: linear-gradient(135deg, #e6f0ff 0%, #fff0f0 25%, #fffbe6 50%, #e6f6ec 75%, #e6f0ff 100%);
+            background-size: 400% 400%; animation: gradientAnimation 15s ease infinite; -webkit-font-smoothing: antialiased;
+        }
+        @keyframes gradientAnimation { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        .container { max-width: 900px; margin: 0 auto; padding: 25px; background-color: var(--header-bg); border-radius: 16px; box-shadow: var(--shadow); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .header { text-align: center; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color); }
+        .header img { max-width: 120px; margin-bottom: 15px; }
+        .header h1 { color: var(--skkm-blue); font-weight: 700; margin: 0; font-size: 1.8em; }
+        .header p#date-display { margin-top: 15px; font-size: 1.1em; font-weight: 600; color: #444; background-color: rgba(255, 224, 130, 0.6); padding: 8px 15px; border-radius: 8px; display: inline-block; border: 1px solid rgba(224, 194, 100, 0.5); }
+        .entry-form-section { background-color: var(--form-bg); padding: 25px; border-radius: 8px; margin-bottom: 30px; border: 1px solid var(--border-color); }
+        .entry-form-section h2 { margin-top: 0; border-bottom: 2px solid var(--skkm-blue); padding-bottom: 10px; margin-bottom: 25px; }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-group label { margin-bottom: 5px; font-weight: 600; }
+        .form-group select, .form-group input, .form-group input:disabled, .form-group select:disabled { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 8px; font-family: 'Poppins', sans-serif; font-size: 16px; -webkit-appearance: none; appearance: none; background-color: white; box-sizing: border-box; transition: border-color 0.2s, box-shadow 0.2s; }
+        .form-group select:disabled, .form-group input:disabled { background-color: #e9ecef; color: #6c757d; cursor: not-allowed; }
+        .form-group select { background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.4-5.4-13z%22/%3E%3C/svg%3E'); background-repeat: no-repeat; background-position: right 15px center; background-size: .65em auto; padding-right: 40px; }
+        .form-group select:focus, .form-group input:focus { outline: none; border-color: var(--skkm-blue); box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.25); }
+        .action-buttons { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 15px; margin-top: 30px; }
+        .action-button { color: white; padding: 12px 25px; border: none; border-radius: 8px; font-size: 1em; font-weight: 600; cursor: pointer; text-decoration: none; transition: all 0.3s ease; -webkit-appearance: none; box-shadow: 0 2px 4px rgba(0,0,0,0.1); text-shadow: 1px 1px 2px rgba(0,0,0,0.2); touch-action: manipulation; }
+        .action-button:hover, .action-button:focus { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); outline: none; }
+        .save-button { background-color: var(--skkm-blue); }
+        #refresh-button { background-color: var(--skkm-green); }
+        .reset-button { background-color: var(--skkm-yellow); color: #333; text-shadow: none; }
+        .report-button { background-color: var(--skkm-red); }
+        .notification { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; padding: 15px 20px; border-radius: 8px; color: white; font-weight: 600; z-index: 1000; opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease; pointer-events: none; text-align: center;}
+        .notification.show { opacity: 1; transform: translate(-50%, 0); pointer-events: auto; }
+        .notification.success { background-color: rgba(40, 167, 69, 0.9); }
+        .notification.error { background-color: rgba(220, 53, 69, 0.9); }
+        .notification.warning { background-color: rgba(255, 193, 7, 0.9); color: #333; }
+        .footer-credit { text-align: center; margin-top: 40px; padding: 10px; font-size: 0.7em; color: #6c757d; }
+        .footer-credit p { margin: 5px 0; }
+        .footer-credit strong { color: var(--skkm-blue); }
+        @media (max-width: 768px) { .container { padding: 15px; backdrop-filter: none; -webkit-backdrop-filter: none; } .header h1 { font-size: 1.5em; } .action-buttons { flex-direction: column; align-items: stretch; } }
     </style>
 </head>
-<body class="min-h-screen text-slate-800">
+<body>
+    <div class="container">
+        <header class="header">
+            <img src="https://i.postimg.cc/1RvV6rQg/logo-sekolah-3d.png" alt="Logo SK Kuala Muput">
+            <h1>Portal Kehadiran Staf</h1>
+            <p id="date-display"></p>
+        </header>
 
-    <!-- Header Korporat -->
-    <header class="bg-navy-pro text-white py-12 px-6 shadow-2xl relative overflow-hidden text-center md:text-left">
-        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
-            <div class="flex items-center gap-6">
-                <img src="https://i.postimg.cc/fLF8Qqnw/LOGO-SKKM-2023-LATEST.png" class="h-24 drop-shadow-lg" alt="Logo SKKM">
-                <div>
-                    <h1 class="text-4xl font-black tracking-tighter uppercase leading-none italic text-white">Sistem E-Stok Digital</h1>
-                    <p class="text-amber-400 text-sm font-bold tracking-[0.4em] uppercase mt-2 opacity-90 leading-none tracking-tighter">SK Kuala Muput, Tatau</p>
+        <section class="entry-form-section">
+            <h2>Borang Kemaskini Kehadiran</h2>
+            <form id="attendance-form">
+                <div class="form-grid">
+                    <div class="form-group"><label for="tarikh">Tarikh</label><input type="date" id="tarikh"></div>
+                    <div class="form-group"><label for="nama">Nama Staf</label><select id="nama"></select></div>
+                    <div class="form-group"><label for="jawatan">Jawatan</label><input type="text" id="jawatan" disabled></div>
+                    <div class="form-group"><label for="kategori">Kategori</label><input type="text" id="kategori" disabled></div>
+                    <div class="form-group"><label for="status">Status Kehadiran</label><select id="status" disabled><option value="">Pilih...</option><option value="Hadir">Hadir</option><option value="Tidak Hadir">Tidak Hadir</option></select></div>
+                    <div class="form-group"><label for="masa_datang">Masa Datang</label><input type="time" id="masa_datang" disabled></div>
+                    <div class="form-group"><label for="masa_balik">Masa Balik</label><input type="time" id="masa_balik" disabled></div>
+                    <div class="form-group">
+                        <label for="alasan">Alasan Tidak Hadir</label>
+                        <select id="alasan" disabled>
+                            <option value="">-</option>
+                            <option value="Urusan Rasmi di Luar Sekolah">Urusan Rasmi di Luar Sekolah</option>
+                            <option value="Cuti Rehat">Cuti Rehat</option>
+                            <option value="Cuti Rehat Khas">Cuti Rehat Khas</option>
+                            <option value="Pelepasan">Pelepasan</option>
+                            <option value="Cuti Sakit">Cuti Sakit</option>
+                            <option value="Temujanji Klinik/Hospital">Temujanji Klinik/Hospital</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            
-            <div class="flex flex-col items-center md:items-end gap-4">
-                <div class="flex bg-white/10 p-1.5 rounded-2xl backdrop-blur-xl border border-white/20 shadow-inner">
-                    <button onclick="setRole('guru')" id="btnRoleGuru" class="px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all bg-amber-500 text-slate-900 shadow-xl">Mod Guru</button>
-                    <button onclick="promptAdmin()" id="btnRoleAdmin" class="px-6 py-2 rounded-xl text-[10px] font-black uppercase transition-all text-slate-400 hover:text-white">Mod Admin</button>
-                </div>
-            </div>
+            </form>
+        </section>
+        
+        <div class="action-buttons">
+            <button type="button" id="save-button" class="action-button save-button">Simpan</button>
+            <button type="button" id="refresh-button" class="action-button">Muat Semula Data</button>
+            <button type="button" id="reset-button" class="action-button reset-button">Reset Borang</button>
+            <button type="button" id="report-access-button" class="action-button report-button">🔒 Jana Laporan Penuh</button>
         </div>
-    </header>
+        
+    </div>
+    <div id="notification-area" class="notification"></div>
 
-    <main class="max-w-6xl mx-auto px-4 -mt-12 relative z-20 pb-20">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-            
-            <!-- Bahagian Borang -->
-            <div class="lg:col-span-7">
-                <div class="glass-panel rounded-[3rem] p-10 border-gold relative overflow-hidden">
-                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-10">
-                        <div class="flex items-center gap-4">
-                            <div id="roleIcon" class="bg-slate-900 text-white p-3 rounded-2xl shadow-2xl transition-colors duration-500">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" /></svg>
-                            </div>
-                            <div>
-                                <h2 id="roleTitle" class="text-3xl font-black text-slate-800 uppercase tracking-tighter leading-none">Rekod Pengeluaran</h2>
-                                <p id="roleSub" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Sila lengkapkan butiran pengambilan stok</p>
-                            </div>
-                        </div>
-                        <a href="https://docs.google.com/spreadsheets/d/127wv0kjwtQNAFqa1zCeBNp20O1tHC9GVr32h33sml6Q/edit" target="_blank" id="adminSheetBtn" class="hidden flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg transition-all active:scale-95">
-                            📊 Buka Laporan ↗
-                        </a>
-                    </div>
-
-                    <form id="stokForm" class="space-y-6">
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Nama Pegawai / Staf</label>
-                            <select name="guru" id="staffDropdown" required class="w-full p-5 bg-slate-900 text-white border-none rounded-[1.5rem] font-bold text-sm uppercase shadow-inner outline-none focus:ring-4 focus:ring-amber-500/20 transition-all">
-                                <option value="" disabled selected>-- MEMUATKAN SENARAI STAF --</option>
-                            </select>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Punca Kewangan</label>
-                                <select name="punca" class="w-full p-5 bg-slate-50 border border-slate-200 rounded-[1.5rem] font-bold text-sm outline-none">
-                                    <option>PCG PANITIA</option><option>LPBT</option><option>SUMBANGAN / LAIN-LAIN</option><option>TIDAK PASTI</option>
-                                </select>
-                            </div>
-                            <div class="space-y-2">
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Jenis Transaksi</label>
-                                <select name="gerakan" id="gerakanField" class="w-full p-5 border-2 border-slate-100 rounded-[1.5rem] font-black text-sm outline-none transition-all"></select>
-                            </div>
-                        </div>
-
-                        <div class="space-y-2">
-                            <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Nama Bahan / Item</label>
-                            <input type="text" name="item" id="inputItem" required placeholder="NAMA BARANG" class="w-full p-5 bg-slate-50 border border-slate-200 rounded-[1.5rem] font-bold text-sm uppercase outline-none focus:bg-white transition-all">
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div class="space-y-2">
-                                <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em] ml-2">Kuantiti (Bilangan)</label>
-                                <input type="number" name="qty" id="inputQty" required placeholder="0" class="w-full p-5 bg-slate-50 border border-slate-200 rounded-[1.5rem] font-black text-xl text-center outline-none">
-                            </div>
-                            <div class="space-y-2">
-                                <div class="flex justify-between items-center px-2">
-                                    <label class="text-[11px] font-black text-slate-400 uppercase tracking-[0.2em]">Sebab / Invois</label>
-                                    <button type="button" onclick="toggleInv()" id="tBtn" class="text-[9px] font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full uppercase">Manual ✎</button>
-                                </div>
-                                <select id="iSel" class="w-full p-5 bg-slate-50 border border-slate-200 rounded-[1.5rem] font-bold text-sm outline-none">
-                                    <option value="KEGUNAAN SEMASA">KEGUNAAN SEMASA</option><option value="PASCA BANJIR">PASCA BANJIR</option><option value="STOK LAMA">STOK LAMA</option>
-                                </select>
-                                <input type="text" id="iInp" placeholder="TAIP NO. INVOIS / SEBAB" class="hidden w-full p-5 bg-white border border-amber-200 rounded-[1.5rem] font-bold text-sm uppercase outline-none">
-                            </div>
-                        </div>
-
-                        <button type="submit" id="submitBtn" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-black py-6 rounded-[1.5rem] uppercase tracking-[0.3em] text-xs shadow-2xl active:scale-95 transition-all">🚀 Simpan Rekod & Inform Admin</button>
-                        
-                        <!-- Pusat Notifikasi Admin -->
-                        <div id="waCenter" class="hidden mt-10 p-8 bg-slate-100 border border-slate-200 rounded-[2.5rem] text-center">
-                            <h3 class="text-[10px] font-black text-slate-800 uppercase tracking-[0.2em] mb-6 italic underline decoration-amber-400 decoration-4 underline-offset-8 leading-none">Sila Maklumkan Admin Pejabat (WhatsApp):</h3>
-                            
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <a id="waTutong" href="#" target="_blank" class="admin-card border-amber-200 bg-amber-50/30">
-                                    <span class="text-2xl mb-1">👨‍🔧</span>
-                                    <p class="text-[8px] font-black uppercase text-slate-400 mb-1 leading-none">P.O Pejabat 2</p>
-                                    <p class="text-[11px] font-black text-slate-800 uppercase leading-none">Tutong</p>
-                                </a>
-                                <a id="waJelai" href="#" target="_blank" class="admin-card">
-                                    <span class="text-2xl mb-1">👨‍💼</span>
-                                    <p class="text-[8px] font-black uppercase text-slate-400 mb-1 leading-none">P.O Pejabat 2</p>
-                                    <p class="text-[11px] font-black text-slate-800 uppercase leading-none">Jelai</p>
-                                </a>
-                                <a id="waEllyna" href="#" target="_blank" class="admin-card">
-                                    <span class="text-2xl mb-1">👩‍💻</span>
-                                    <p class="text-[8px] font-black uppercase text-slate-400 mb-1 leading-none">Pembantu Tadbir</p>
-                                    <p class="text-[11px] font-black text-slate-800 uppercase leading-none text-center">Puan Ellyna Haura</p>
-                                </a>
-                            </div>
-                            <button type="button" onclick="formResetClean()" class="mt-8 text-[9px] font-black text-slate-400 uppercase underline tracking-[0.2em]">Selesai / Rekod Baru ↻</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Sidebar Info & Timer -->
-            <div class="lg:col-span-5 flex flex-col gap-8">
-                <div class="glass-panel rounded-[3rem] p-10 border-l-[15px] border-slate-900 h-full flex flex-col justify-between shadow-2xl">
-                    <div>
-                        <h2 class="text-3xl font-black text-slate-800 uppercase italic tracking-tighter mb-8 leading-tight">Automasi Inventori SKKM</h2>
-                        <div class="bg-blue-50 p-6 rounded-[2rem] border border-blue-100 mb-8">
-                            <p id="dbStatus" class="text-[11px] font-bold text-slate-600 leading-relaxed uppercase tracking-tighter">Menghubungkan Database Cloud...</p>
-                        </div>
-                    </div>
-                    
-                    <div class="pt-10 border-t border-slate-100">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] block mb-2 leading-none">Inovasi Digital Oleh:</span>
-                        <span class="text-xl font-black text-slate-900 uppercase italic tracking-tighter block mb-1">Cikgu Dayangku Nurul Akmal</span>
-                        <span class="text-xs font-bold text-slate-400 uppercase block mb-8 tracking-widest leading-none">Awang Mustapha</span>
-                        
-                        <div class="space-y-4">
-                            <p class="text-[11px] font-bold text-slate-500 uppercase tracking-widest leading-none">
-                                Dibangunkan pada: <span class="text-slate-900 font-black border-b-2 border-amber-400 pb-1">12 Februari 2026</span>
-                            </p>
-                            <!-- Count Up Timer -->
-                            <div class="bg-slate-900 text-white p-7 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
-                                <p class="text-[9px] font-black text-slate-500 uppercase tracking-widest mb-3 relative z-10">Masa Beroperasi Sejak Pelancaran:</p>
-                                <div id="countup" class="text-xl font-black text-amber-400 tracking-tighter font-mono italic uppercase relative z-10 leading-none">0 Hari 0 Jam 0 Min 0 Saat</div>
-                                <div class="absolute -right-5 -bottom-5 text-6xl font-black text-white/5 italic">SKKM</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
+    <footer class="footer-credit">
+      <p>Portal Kehadiran Staf SK Kuala Muput © 2025</p>
+      <p>Inovasi Digital oleh: <strong>Cikgu Dayangku Nurul Akmal Awang Mustapha</strong></p>
+      <p>Dibangunkan pada: <strong>3 Julai 2025</strong></p>
+      <p>Sistem beroperasi selama: <strong id="system-uptime">Memuat...</strong></p>
+    </footer>
 
     <script>
-        // --- KONFIGURASI ---
-        const ADMIN_PASS  = 'SKKM2026';
-        const scriptURL   = 'https://script.google.com/macros/s/AKfycbwsNH7gREyf6BfDQOaolX5DGpN0yEDpvWU0g1XhskWJSHs44tNn5wlmFiKty-6IE2D_/exec'; 
-        const launchDate  = new Date("February 12, 2026 00:00:00").getTime();
+    document.addEventListener('DOMContentLoaded', function() {
+        const googleAppScriptUrl = 'https://script.google.com/macros/s/AKfycbworXxupDgHix2o-rhLSFteYGzWvWcyTKrZXf8oSL97gXBunZy-mBzSwN_JAijUcyHovQ/exec';
+        
+        let dailyRecords = {};
+        let staffMasterList = [];
 
-        // 1. Timer Beroperasi
-        function updateTimer() {
-            const now = new Date().getTime();
-            const diff = now - launchDate;
-            if(diff < 0) { document.getElementById("countup").innerText = "SISTEM DALAM PERSEDIAAN"; return; }
-            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-            document.getElementById("countup").innerText = `${days} HARI ${hours} JAM ${minutes} MIN ${seconds} SAAT`;
+        const form = document.getElementById('attendance-form');
+        const getEl = (id) => document.getElementById(id);
+        const [tarikhInput, namaSelect, jawatanInput, kategoriInput, statusSelect, masaDatangInput, masaBalikInput, alasanSelect] = 
+            ['tarikh', 'nama', 'jawatan', 'kategori', 'status', 'masa_datang', 'masa_balik', 'alasan'].map(getEl);
+        const [dateDisplayElement, saveButton, resetButton, refreshButton, reportButton] =
+            ['date-display', 'save-button', 'reset-button', 'refresh-button', 'report-access-button'].map(getEl);
+
+        function updateDateDisplay() {
+            const dateString = tarikhInput.value;
+            if (!dateString) { dateDisplayElement.textContent = 'Sila pilih tarikh'; return; }
+            const [year, month, day] = dateString.split('-');
+            const dateObj = new Date(year, month - 1, day);
+            dateDisplayElement.textContent = `Rekod untuk: ${dateObj.toLocaleDateString('ms-MY', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
         }
-        setInterval(updateTimer, 1000);
-        updateTimer();
 
-        // 2. Load Staff dari Google Sheet
-        async function loadStaff() {
+        async function fetchStaffList() {
+            showNotification('Memuat turun senarai staf...', 'warning');
             try {
-                const response = await fetch(scriptURL);
-                const staffList = await response.json();
-                const dropdown = document.getElementById('staffDropdown');
-                dropdown.innerHTML = '<option value="" disabled selected>-- PILIH NAMA ANDA --</option>';
-                staffList.forEach(name => {
-                    const opt = document.createElement('option');
-                    opt.value = name; opt.text = name;
-                    dropdown.add(opt);
-                });
-                document.getElementById('dbStatus').innerText = "Database Connected: Live Staff Data Loaded";
-                document.getElementById('dbStatus').className = "text-[11px] font-bold text-emerald-600 uppercase tracking-tighter";
-            } catch (e) { document.getElementById('dbStatus').innerText = "Database Offline: Sila Reload"; }
-        }
-
-        // 3. Role Control Logic
-        let currentRole = 'guru';
-        function setRole(role) {
-            currentRole = role;
-            localStorage.setItem('skkm_active_role', role); // SIMPAN ROLE SUPAYA TAK LOGOUT
-            
-            const field = document.getElementById('gerakanField');
-            const btnGuru = document.getElementById('btnRoleGuru');
-            const btnAdmin = document.getElementById('btnRoleAdmin');
-            const adminSheetBtn = document.getElementById('adminSheetBtn');
-            const rIcon = document.getElementById('roleIcon');
-            const rTitle = document.getElementById('roleTitle');
-
-            if (role === 'guru') {
-                field.innerHTML = '<option value="KELUAR" selected>STOK KELUAR (-)</option>';
-                field.className = 'w-full p-5 border-2 border-rose-100 rounded-[1.5rem] font-black text-sm text-rose-600 outline-none';
-                btnGuru.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase bg-amber-500 text-slate-900 shadow-xl transition-all';
-                btnAdmin.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400 hover:text-white transition-all';
-                adminSheetBtn.classList.add('hidden');
-                rIcon.className = 'bg-slate-900 text-white p-3 rounded-2xl';
-                rTitle.innerText = "Rekod Pengeluaran";
-            } else {
-                field.innerHTML = '<option value="MASUK">STOK MASUK (+)</option><option value="KELUAR">STOK KELUAR (-)</option>';
-                field.className = 'w-full p-5 border-2 border-emerald-100 rounded-[1.5rem] font-black text-sm text-emerald-600 outline-none';
-                btnAdmin.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase bg-emerald-500 text-white shadow-xl transition-all';
-                btnGuru.className = 'px-6 py-2 rounded-xl text-[10px] font-black uppercase text-slate-400 hover:text-white transition-all';
-                adminSheetBtn.classList.remove('hidden');
-                rIcon.className = 'bg-emerald-600 text-white p-3 rounded-2xl';
-                rTitle.innerText = "Kemasukan Admin";
+                const response = await fetch(`${googleAppScriptUrl}?action=getStaff`);
+                if (!response.ok) throw new Error(`Ralat Rangkaian: ${response.status}`);
+                const data = await response.json();
+                if (data.result !== 'success') throw new Error(data.message);
+                
+                staffMasterList = data.data;
+                populateNamaDropdown();
+                showNotification('Senarai staf berjaya dimuat turun.', 'success');
+            } catch (error) {
+                showNotification(`Gagal memuat turun senarai staf: ${error.message}`, 'error');
             }
         }
 
-        function promptAdmin() { if (prompt("Sila masukkan Kod Akses Admin:") === ADMIN_PASS) setRole('admin'); else alert("Kod Akses Salah!"); }
-
-        let isManual = false;
-        function toggleInv() {
-            isManual = !isManual;
-            document.getElementById('iSel').classList.toggle('hidden');
-            document.getElementById('iInp').classList.toggle('hidden');
-            document.getElementById('tBtn').innerText = isManual ? 'Pilihan ↩' : 'Manual ✎';
+        function populateNamaDropdown() {
+            namaSelect.innerHTML = `<option value="">-- Pilih Nama --</option>`;
+            const sortedStaff = staffMasterList.sort((a, b) => a.nama.localeCompare(b.nama));
+            sortedStaff.forEach(staff => {
+                namaSelect.innerHTML += `<option value="${staff.nama}">${staff.nama}</option>`;
+            });
+        }
+        
+        function resetForm(isFullReset = false) {
+            const currentTarikh = tarikhInput.value;
+            form.reset();
+            tarikhInput.value = currentTarikh;
+            
+            if (isFullReset) {
+                namaSelect.value = '';
+            }
+            
+            handleStatusChange();
+            handleNameSelection();
         }
 
-        // FUNGSI RESET TANPA RELOAD
-        function formResetClean() {
-            document.getElementById('inputItem').value = '';
-            document.getElementById('inputQty').value = '';
-            document.getElementById('waCenter').classList.add('hidden');
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = '🚀 Simpan Rekod & Inform Admin';
-            btn.className = 'w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-black py-6 rounded-[1.5rem] uppercase tracking-[0.3em] text-xs shadow-2xl active:scale-95 transition-all';
-            btn.disabled = false;
+        function handleNameSelection() {
+            const selectedName = namaSelect.value;
+            if (!selectedName) {
+                jawatanInput.value = '';
+                kategoriInput.value = '';
+                statusSelect.disabled = true;
+                statusSelect.value = '';
+            } else {
+                statusSelect.disabled = false;
+                
+                const staffInfo = staffMasterList.find(s => s.nama === selectedName);
+                if (staffInfo) {
+                    jawatanInput.value = staffInfo.jawatan;
+                    kategoriInput.value = staffInfo.kategori;
+                }
+                
+                const recordKey = Object.keys(dailyRecords).find(key => key.trim() === selectedName.trim());
+                const rec = recordKey ? dailyRecords[recordKey] : null;
+
+                if (rec) {
+                    statusSelect.value = rec.Status || '';
+                    masaDatangInput.value = rec['Masa Datang'] || '';
+                    masaBalikInput.value = rec['Masa Balik'] || '';
+                    alasanSelect.value = rec.Alasan || '';
+                } else {
+                    statusSelect.value = '';
+                    masaDatangInput.value = '';
+                    masaBalikInput.value = '';
+                    alasanSelect.value = '';
+                }
+            }
+            handleStatusChange();
+        }
+        
+        function handleStatusChange() {
+            const status = statusSelect.value;
+            const isHadir = status === 'Hadir';
+            masaDatangInput.disabled = !isHadir;
+            masaBalikInput.disabled = !isHadir;
+            alasanSelect.disabled = isHadir || status === '';
+            
+            if (!isHadir) { 
+                masaDatangInput.value = ''; 
+                masaBalikInput.value = ''; 
+            } else { 
+                alasanSelect.value = ''; 
+            }
         }
 
-        // 4. Submission & WhatsApp Center
-        document.getElementById('stokForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = 'MEMPROSES REKOD...';
-            btn.disabled = true;
-
-            const data = {
-                guru: e.target.guru.value,
-                punca: e.target.punca.value,
-                item: e.target.item.value,
-                gerakan: e.target.gerakan.value,
-                qty: e.target.qty.value,
-                invois: isManual ? document.getElementById('iInp').value : document.getElementById('iSel').value
+        async function saveData() {
+            const recordData = {
+                tarikh: tarikhInput.value,
+                nama: namaSelect.value,
+                jawatan: jawatanInput.value,
+                kategori: kategoriInput.value,
+                status: statusSelect.value, 
+                masa_datang: masaDatangInput.value,
+                masa_balik: masaBalikInput.value, 
+                alasan: alasanSelect.value
             };
 
-            fetch(scriptURL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
-            .then(() => {
-                btn.innerText = 'REKOD BERJAYA DISIMPAN!';
-                btn.className = 'w-full bg-emerald-600 text-white font-black py-6 rounded-[1.5rem] uppercase text-xs shadow-none';
-                
-                if(data.gerakan === "KELUAR" && currentRole === 'guru') {
-                    const msg = `*E-STOK SKKM: MAKLUMAN PENGELUARAN*%0A------------------------------------%0A*Item:* ${data.item}%0A*Bilangan:* ${data.qty} UNIT%0A*Diambil Oleh:* ${data.guru}%0A*Catatan:* ${data.invois}%0A%0A_Mohon maklumbalas jika perlu. Terima kasih._`;
-                    
-                    document.getElementById('waTutong').href = `https://wa.me/60138416042?text=${msg}`;
-                    document.getElementById('waJelai').href = `https://wa.me/60178327839?text=${msg}`;
-                    document.getElementById('waEllyna').href = `https://wa.me/60178372362?text=${msg}`;
-                    
-                    document.getElementById('waCenter').classList.remove('hidden');
-                    document.getElementById('waCenter').scrollIntoView({ behavior: 'smooth' });
-                } else { 
-                    // JIKA MOD ADMIN, JANGAN RELOAD. HANYA RESET FORM.
-                    setTimeout(() => {
-                        formResetClean();
-                        alert("Data Berjaya Disimpan!");
-                    }, 1000); 
-                }
-            });
-        });
+            if (!recordData.tarikh || !recordData.nama || !recordData.jawatan || !recordData.kategori || !recordData.status) {
+                showNotification('Sila lengkapkan Tarikh, Nama, Jawatan, Kategori dan Status.', 'error'); return;
+            }
 
-        // LOAD DATA & ROLE ASAL
-        window.onload = () => {
-            const savedRole = localStorage.getItem('skkm_active_role') || 'guru';
-            setRole(savedRole);
-            loadStaff();
-            updateTimer();
+            showNotification('Menghantar data...', 'warning');
+            saveButton.disabled = true;
+            try {
+                const formData = new FormData();
+                for (const key in recordData) { formData.append(key, recordData[key]); }
+                const response = await fetch(googleAppScriptUrl, { method: 'POST', body: formData });
+                if (!response.ok) throw new Error(`Ralat Rangkaian: ${response.status} ${response.statusText}`);
+                const data = await response.json();
+                if (data.result !== 'success') throw new Error(data.message);
+                showNotification(data.message, 'success');
+                await fetchDailyData(); 
+            } catch (error) {
+                showNotification(`Gagal menyimpan: ${error.message}`, 'error');
+            } finally {
+                saveButton.disabled = false;
+            }
+        }
+        
+        async function fetchDailyData() {
+            const selectedDate = tarikhInput.value;
+            if (!selectedDate) { showNotification('Sila pilih tarikh dahulu.', 'error'); return; }
+            
+            showNotification('Memuat turun data kehadiran...', 'warning');
+            refreshButton.disabled = true;
+            try {
+                const urlWithParams = `${googleAppScriptUrl}?date=${selectedDate}`;
+                const response = await fetch(urlWithParams);
+                if (!response.ok) throw new Error(`Ralat Rangkaian: ${response.status}`);
+                const data = await response.json();
+                if (data.result !== 'success') throw new Error(data.message);
+                dailyRecords = {};
+                if (data.data && Array.isArray(data.data)) {
+                    data.data.forEach(rec => { if(rec.Nama) dailyRecords[rec.Nama] = rec; });
+                }
+                resetForm(true);
+                showNotification(`Data untuk ${selectedDate} berjaya dimuat turun.`, 'success');
+            } catch (error) {
+                dailyRecords = {}; resetForm(true);
+                showNotification(`Gagal muat turun: ${error.message}`, 'error');
+            } finally {
+                refreshButton.disabled = false;
+            }
+        }
+        
+        function showNotification(message, type) {
+            const el = document.getElementById('notification-area');
+            el.className = 'notification'; el.classList.add(type, 'show');
+            el.textContent = message;
+            setTimeout(() => { el.classList.remove('show'); }, 5000);
+        }
+        
+        const getCurrentDateISO = () => {
+            const today = new Date();
+            return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
         };
+
+        async function initializePage() {
+            tarikhInput.value = getCurrentDateISO();
+            updateDateDisplay();
+            await fetchStaffList();
+            resetForm(true);
+        }
+
+        function startSystemUptime() {
+            const startDate = new Date('2025-07-03T00:00:00'); 
+            const uptimeElement = document.getElementById('system-uptime');
+            if (!uptimeElement) return;
+
+            function updateTimer() {
+                const now = new Date();
+                const difference = now - startDate;
+                const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+                uptimeElement.textContent = `${days} hari, ${hours} jam, ${minutes} minit, ${seconds} saat`;
+            }
+            setInterval(updateTimer, 1000);
+            updateTimer(); 
+        }
+
+        function handleReportAccess() {
+            const pass = prompt("Sila masukkan kata laluan untuk mengakses laporan:");
+            if (pass === "SKKM2025") {
+                window.open("https://docs.google.com/spreadsheets/d/1TH5fOfbMY2hApwrQazPcv2xoMctoXRT27MKGZZYHi2E/edit?usp=sharing", "_blank");
+            } else if (pass !== null) {
+                showNotification("Kata laluan salah! Akses ditolak.", "error");
+            }
+        }
+        
+        tarikhInput.addEventListener('change', () => {
+            updateDateDisplay();
+            dailyRecords = {};
+            resetForm(true);
+            showNotification("Tarikh ditukar. Sila klik 'Muat Semula Data' untuk mendapatkan rekod terkini.", 'warning');
+        });
+        
+        namaSelect.addEventListener('change', handleNameSelection);
+        statusSelect.addEventListener('change', handleStatusChange);
+        
+        saveButton.addEventListener('click', saveData);
+        refreshButton.addEventListener('click', fetchDailyData);
+        reportButton.addEventListener('click', handleReportAccess);
+        resetButton.addEventListener('click', () => {
+            resetForm(true);
+            showNotification('Borang telah direset.', 'warning');
+        });
+        
+        initializePage();
+        startSystemUptime();
+    });
     </script>
 </body>
 </html>
